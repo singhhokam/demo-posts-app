@@ -6,12 +6,13 @@ function Posts() {
   const [posts, setPosts] = useContext(PostsContext);
   const [curPage, setCurPage] = useState(1);
   const postPerPage = 6;
+  const totalPage = Math.floor(posts.length / 6 + 1);
   const lastPostIndex = curPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
   const curPosts =
     posts.length > 0 ? posts.slice(firstPostIndex, lastPostIndex) : [];
   function nextPage() {
-    if (curPage == Math.floor(posts.length / 6 + 1)) return;
+    if (curPage == totalPage) return;
     setCurPage((prev) => prev + 1);
   }
   function prevPage() {
@@ -57,7 +58,7 @@ function Posts() {
         >
           <p>{curPage}</p>
         </div>
-        {curPage < Math.floor(posts.length / 6 + 1) && (
+        {curPage < totalPage && (
           <div
             className="flex items-center justify-center bg-gray-400 rounded-full h-8 w-8 text-center m-1 cursor-pointer"
             onClick={() => goToPage(curPage + 1)}
@@ -65,7 +66,7 @@ function Posts() {
             <p>{curPage + 1}</p>
           </div>
         )}
-        {curPage < Math.floor(posts.length / 6) && (
+        {curPage < totalPage - 1 && (
           <div
             className="flex items-center justify-center bg-gray-400 rounded-full h-8 w-8 text-center m-1 cursor-pointer"
             onClick={() => goToPage(curPage + 2)}
